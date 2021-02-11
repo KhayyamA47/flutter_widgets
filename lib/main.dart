@@ -1,7 +1,12 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app_example/mainUtil.dart';
+import 'package:flutter_app_example/videos.dart';
 import 'package:video_player/video_player.dart';
+import 'package:http/http.dart' as http;
 
 void main() => runApp(
   DevicePreview(
@@ -36,15 +41,27 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   TabController _tabController;
-
+Video video;
   @override
   void initState() {
     super.initState();
-
+    getVideos();
     _tabController = new TabController(length: 3, vsync: this);
-
+    // _controller = VideoPlayerController.network(
+    //     'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4')
+    //   ..initialize().then((_) {
+    //     // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+    //     setState(() {});
+    //   });
   }
-
+  getVideos() async {
+    final response =
+    await http.get('https://run.mocky.io/v3/6ea55545-3fe0-4e72-a537-09568b5e19a7');
+log(response.body);
+setState(() {
+  video=Video.fromJson(json.decode(response.body));
+});
+  }
   @override
   void dispose() {
     super.dispose();
@@ -100,23 +117,70 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
             ),
           ),
           Center(
-            child: GridView.count(
-              crossAxisCount: 4,
-              children: new List<Widget>.generate(88, (index) {
-                return new GridTile(
-                  child: new Card(
-                      color: Colors.blue.shade200,
-                      child: new Center(
-                        child: new Text('tile $index'),
-                      )
-                  ),
-                );
-              }),
+            child:video==null?Center(child: CircularProgressIndicator()): GridView.builder(
+              itemCount: video.videos.length,
+              itemBuilder: (BuildContext contest,int index){
+                return VideoItem(path: video.videos[index].sources[0].replaceAll('http', 'https'));
+              }, gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 5.0,
+              mainAxisSpacing: 5.0,
+            ),
             ),
           )
         ],
         controller: _tabController,
       ),
+    );
+  }
+}
+class VideoItem extends StatefulWidget {
+  final String path;
+
+  const VideoItem({Key key, this.path}) : super(key: key);
+  @override
+  _VideoItemState createState() => _VideoItemState(path);
+}
+
+class _VideoItemState extends State<VideoItem> {
+  String path;
+  VideoPlayerController _controller;
+
+  _VideoItemState(this.path);
+
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = VideoPlayerController.network(
+        path)
+      ..initialize().then((_) {
+        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+        setState(() {});
+      });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      child: Card(
+        color: Colors.blue.shade200,
+        child: _controller.value.initialized
+            ? Container(
+          child: AspectRatio(
+            aspectRatio: _controller.value.aspectRatio*2,
+            child: VideoPlayer(_controller),
+          ),
+        )
+            : Container(),
+      ),
+      onTap: (){
+        setState(() {
+          _controller.value.isPlaying
+              ? _controller.pause()
+              : _controller.play();
+        });
+      },
     );
   }
 }
@@ -452,11 +516,7 @@ class _NestedTabBarState extends State<NestedTabBar>
                       SizedBox(height: SizeConfig.size25),
                       FloatingActionButton(
                         onPressed: () {
-                          setState(() {
-                            _controller.value.isPlaying
-                                ? _controller.pause()
-                                : _controller.play();
-                          });
+
                         },
                         child: Icon(
                           _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
