@@ -249,82 +249,84 @@ class _NestedTabBarState extends State<NestedTabBar>
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(SizeConfig.size8),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: SizeConfig.size25),
-                      RaisedButton(
-                        child: Text(
-                          "Raised Button",
-                          style: TextStyle(fontSize: SizeConfig.size20),
+                  child:SingleChildScrollView(
+                    child:  Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: SizeConfig.size25),
+                        RaisedButton(
+                          child: Text(
+                            "Raised Button",
+                            style: TextStyle(fontSize: SizeConfig.size20),
+                          ),
+                          onPressed: () {},
+                          color: Colors.red,
+                          textColor: Colors.yellow,
+                          padding: EdgeInsets.all(SizeConfig.size8),
+                          splashColor: Colors.grey,
                         ),
-                        onPressed: () {},
-                        color: Colors.red,
-                        textColor: Colors.yellow,
-                        padding: EdgeInsets.all(SizeConfig.size8),
-                        splashColor: Colors.grey,
-                      ),
-                      SizedBox(height: SizeConfig.size25),
-                      RaisedButton(
-                        shape: RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.circular(SizeConfig.size18),
-                            side: BorderSide(color: Colors.red)),
-                        child: Text(
-                          "Oval Raised Button",
-                          style: TextStyle(fontSize: SizeConfig.size20),
+                        SizedBox(height: SizeConfig.size25),
+                        RaisedButton(
+                          shape: RoundedRectangleBorder(
+                              borderRadius:
+                              BorderRadius.circular(SizeConfig.size18),
+                              side: BorderSide(color: Colors.red)),
+                          child: Text(
+                            "Oval Raised Button",
+                            style: TextStyle(fontSize: SizeConfig.size20),
+                          ),
+                          onPressed: () {},
+                          color: Colors.green,
+                          textColor: Colors.yellow,
+                          padding: EdgeInsets.all(SizeConfig.size8),
+                          splashColor: Colors.grey,
                         ),
-                        onPressed: () {},
-                        color: Colors.green,
-                        textColor: Colors.yellow,
-                        padding: EdgeInsets.all(SizeConfig.size8),
-                        splashColor: Colors.grey,
-                      ),
-                      SizedBox(height: SizeConfig.size25),
-                      FloatingActionButton(
-                        child: Icon(Icons.navigation),
-                        backgroundColor: Colors.green,
-                        foregroundColor: Colors.white,
-                        onPressed: () => {},
-                      ),
-                      SizedBox(height: SizeConfig.size25),
-                      FloatingActionButton.extended(
-                        onPressed: () {},
-                        icon: Icon(Icons.save),
-                        label: Text("Save"),
-                      ),
-                      SizedBox(height: SizeConfig.size25),
-                      IconButton(
-                        icon: Icon(Icons.volume_up),
-                        iconSize: 50,
-                        color: Colors.brown,
-                        tooltip: 'Increase volume by 5',
-                        onPressed: () {
-                          setState(() {});
-                        },
-                      ),
-                      SizedBox(height: SizeConfig.size25),
-                      OutlineButton(
-                        child: Text(
-                          "Outline Button",
-                          style: TextStyle(fontSize: SizeConfig.size20),
+                        SizedBox(height: SizeConfig.size25),
+                        FloatingActionButton(
+                          child: Icon(Icons.navigation),
+                          backgroundColor: Colors.green,
+                          foregroundColor: Colors.white,
+                          onPressed: () => {},
                         ),
-                        highlightedBorderColor: Colors.red,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(SizeConfig.size15)),
-                        onPressed: () {},
-                      ),
-                      SizedBox(height: SizeConfig.size25),
-                    Switch(
-                      onChanged: toggleSwitch,
-                      value: isSwitched,
-                      activeColor: Colors.blue,
-                      activeTrackColor: Colors.yellow,
-                      inactiveThumbColor: Colors.redAccent,
-                      inactiveTrackColor: Colors.orange,
-                    )
+                        SizedBox(height: SizeConfig.size25),
+                        FloatingActionButton.extended(
+                          onPressed: () {},
+                          icon: Icon(Icons.save),
+                          label: Text("Save"),
+                        ),
+                        SizedBox(height: SizeConfig.size25),
+                        IconButton(
+                          icon: Icon(Icons.volume_up),
+                          iconSize: 50,
+                          color: Colors.brown,
+                          tooltip: 'Increase volume by 5',
+                          onPressed: () {
+                            setState(() {});
+                          },
+                        ),
+                        SizedBox(height: SizeConfig.size25),
+                        OutlineButton(
+                          child: Text(
+                            "Outline Button",
+                            style: TextStyle(fontSize: SizeConfig.size20),
+                          ),
+                          highlightedBorderColor: Colors.red,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(SizeConfig.size15)),
+                          onPressed: () {},
+                        ),
+                        SizedBox(height: SizeConfig.size25),
+                        Switch(
+                          onChanged: toggleSwitch,
+                          value: isSwitched,
+                          activeColor: Colors.blue,
+                          activeTrackColor: Colors.yellow,
+                          inactiveThumbColor: Colors.redAccent,
+                          inactiveTrackColor: Colors.orange,
+                        )
 
-              ],
+                      ],
+                    ),
                   ),
                 ),
                 Container(
